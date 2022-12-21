@@ -2,6 +2,8 @@ import axios from 'axios'
 import bcrypt from 'bcryptjs'
 import User from '../../../model/userModel'
 import jwt from "jsonwebtoken"
+import absoluteUrl from "next-absolute-url"
+import { sendEmail } from '../../../helpers/sendEmail'
 
 
 export default async function handler(req, res) {
@@ -33,14 +35,33 @@ export default async function handler(req, res) {
       // console.log(newUser)
       
       // const token = jwt.sign({ _id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TIME } )
-      const token = jwt.sign({ _id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "30d"} )
+      const token = await jwt.sign({ _id: newUser._id }, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "30d"} )
       // console.log("token1", token)
 
       newUser.emailToken = token
+      // console.log('new user: ', newUser.emailToken)
       await newUser.save()
+      // console.log(newUser)
+
+      const { origin } = absoluteUrl(req)
+      const link = `${origin}/src/user/email/${token}`
+      // console.log(link)
+
+      const message = `<div>Click on the link below to verify your email, if the link is not working then please paste into the browser.</div></br>
+    <div>link:${link}</div>`
+
+      await sendEmail({
+        to: newUser.email,
+        subject: "Email Verification",
+        text: message,
+      })
+
+      //! NEED TO WRITE SOME LOGIC HERE FOR ERROR HANDLING IF ERROR DURING SENDING EMAIL
 
       // return res.status(200).json(data) ;
-      return res.status(200).json(newUser) ;
+      // return res.status(200).json(newUser) ;
+
+      return res.status(200).json({ success: `Email sent to ${newUser.email}, please check your email` })
     } catch (error) {
       console.log(error)
       return res.status(400).json({ error })

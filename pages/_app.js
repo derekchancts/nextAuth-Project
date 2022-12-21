@@ -8,8 +8,11 @@ import { ThemeProvider } from "@mui/material/styles"
 import theme from "../theme"
 import CssBaseline from "@mui/material//CssBaseline"
 
-// import useSSR from 'use-ssr'
-// import useSSR from '../utils/useSsr'
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
+
+import { wrapper } from "../store/store";
+
 
 // function MyApp({ Component, pageProps }) {
 //   return <Component {...pageProps} />
@@ -30,23 +33,12 @@ import CssBaseline from "@mui/material//CssBaseline"
 // }
 
 
-// function ClientSideRenderedNextJS({ children }) {
-//   const [domLoaded, setDomLoaded] = useState(false)
-  
-//   useEffect(() => {
-//     setDomLoaded(true)
-//   }, [])
-
-//   const { isServer } = useSSR()
-//   if (!domLoaded) return null
-//   if (isServer) return <></>
-
-//   return children
-// }
-
-
 
 function MyApp({ Component, pageProps }) {
+// function MyApp({ Component, ...rest }) {
+
+  // const { store, props } = wrapper.useWrappedStore(rest);
+
   return (
     <>
       <Head>
@@ -59,17 +51,17 @@ function MyApp({ Component, pageProps }) {
 
       <ThemeProvider theme={theme}>
         <SessionProvider session={pageProps.session}>
+        {/* <SessionProvider session={props.session}> */}
           <Layout>
-            {/* <ClientSideRenderedNextJS> */}
-              {/* <ToastContainer 
-                theme="dark"
-                autoClose={3000}
-                hideProgressBar={true}
-                closeOnClick
-                // toastStyle={{ backgroundColor: "crimson" }}
-              /> */}
-              <Component {...pageProps} />
-            {/* </ClientSideRenderedNextJS> */}
+            <ToastContainer 
+              theme="dark"
+              autoClose={3000}
+              hideProgressBar={true}
+              closeOnClick
+              // toastStyle={{ backgroundColor: "crimson" }}
+            />
+            <Component {...pageProps} />
+            {/* <Component {...props.pageProps} /> */}
           </Layout>
         </SessionProvider>
         <CssBaseline />
@@ -79,4 +71,4 @@ function MyApp({ Component, pageProps }) {
 }
 
 
-export default MyApp
+export default wrapper.withRedux(MyApp);

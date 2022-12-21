@@ -14,24 +14,30 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 
+import { useDispatch } from "react-redux";
+import { setUser } from '../store/authSlice'
+
 
 
 export default function ButtonAppBar() {
+  const dispatch = useDispatch(); 
+
   const router = useRouter();
   const [currentUser, setcurrentUser] = useState('');
-  console.log({ currentUser })
+  // console.log({ currentUser })
 
   const { data: session } = useSession();
   // console.log({session})
 
-
   const cookies = parseCookies();
   // console.log({ cookies })
 
+
   useEffect(() => {
-    // const user = cookies?.user ? JSON.parse(cookies.user) : "" 
     const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "";
     setcurrentUser(user);
+
+    dispatch(setUser(user))  //! if you decide to use redux
   }, [cookies.user, session])
 
 

@@ -19,6 +19,10 @@ import { useState, useEffect } from 'react';
 import { parseCookies } from "nookies";
 import cookie from 'js-cookie';
 
+import { useDispatch, useSelector } from "react-redux";
+// import { selectUserState } from '../store/authSlice'
+
+
 
 export default function Component() {
   const router = useRouter();
@@ -36,6 +40,18 @@ export default function Component() {
 
     if (!user) router.push("/src/user/login");
   }, [session?.user])
+
+
+  //! if use redux
+  // const dispatch = useDispatch(); 
+  // const user = useSelector(state => state.auth.currentUser)
+
+  // useEffect(() => {
+  //   if (!user) router.push("/src/user/login");
+
+  //   setCurrentLoggedInUser(user);
+  // }, [user])
+
   
 
   if(currentLoggedInUser) {

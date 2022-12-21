@@ -34,10 +34,10 @@ const userSchema = mongoose.Schema({
   //     message: () => "Minimum password length is 6 characters"
   //   }
   // }
-  // resetToken: { type: String },
-  // update: { type: String },
-  // validEmail: { type: String, default: "not" },
-  // emailToken: { type: String },
+  resetToken: { type: String },
+  update: { type: String },
+  validEmail: { type: String, default: "not" },
+  emailToken: { type: String },
 })
 
 // export default mongoose.models.User || mongoose.model("User", userSchema)

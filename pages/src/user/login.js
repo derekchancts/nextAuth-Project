@@ -19,6 +19,9 @@ import {
   Container
 } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
+import Image from 'next/image'
+import dipper from '../../../assets/pic/dipper.png'
+import { toast } from "react-toastify";
 
 import { MyGoogleLoginButton } from '../../../utils/GoogleIconButton'
 
@@ -39,7 +42,7 @@ const Login = ({ csrfToken, providers }) => {
     if (user) {
       router.push("/")
     }
-  }, [session?.user])
+  }, [])
 
 
   const resetInputValues = () => {
@@ -53,7 +56,19 @@ const Login = ({ csrfToken, providers }) => {
     // console.log(email, password)
 
     if (!email || !password) {
-      alert('all fields must not be empty')
+      // alert('all fields must not be empty')
+      toast.error('all fields must not be empty', {
+        background: '#EE0022 !important',
+        // icon: "🤯"
+        icon: (
+          <Image
+            src={dipper}
+            alt="Login"
+            width={30}
+            height={30}
+          />
+         )
+      })
       return
     };
 
@@ -64,17 +79,22 @@ const Login = ({ csrfToken, providers }) => {
 
       // const { data } = await axios.post('http://localhost:3500/users', newUser, config);
       const { data } = await axios.post('/api/user/login', newUser, config);
-      console.log({ data })
+      if (data) console.log({ data })
+
+      if (data.error) console.log({ "Some Error": data.error })
+
 
       if (data && !data.error) {
         cookie.set('token', data.token);
         cookie.set('user', JSON.stringify(data.user));  // need to stringify the object before we can save it as a string in a cookie
 
+        // toast.success('login successfully')
         router.push('/')
       };
     } catch (error) {
       // console.log(error)    
-      console.log(error?.response?.error)
+      console.log(error?.response?.data?.error)
+      toast.error(error?.response?.data?.error)
     }
     resetInputValues();
   };
@@ -136,12 +156,36 @@ const Login = ({ csrfToken, providers }) => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <LoginIcon />
+          {/* <LoginIcon /> */}
+          <Image
+            src={dipper}
+            alt="Login"
+            width={50}
+            height={50}
+          />
         </Avatar>
 
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
+
+        <Grid
+            container
+            sx={{
+              // mt: 2,
+              // mb: 2,
+              my: 2,
+              border: 1,
+              borderRadius: 1,
+              borderColor: "grey.400",
+              // '&:hover': {
+              //   background: "rgb(7, 177, 77, 0.42)",          
+              // }
+            }}
+          >
+            {/* <GoogleLoginButton onClick={() => signIn("google")} /> */}
+            <MyGoogleLoginButton onClick={() => signIn("google")} />
+          </Grid>
 
         <Box
           component="form"
@@ -190,29 +234,11 @@ const Login = ({ csrfToken, providers }) => {
             </Grid> */}
           </Grid>
 
-          <Grid
-            container
-            sx={{
-              mt: 2,
-              mb: 2,
-              border: 1,
-              borderRadius: 1,
-              borderColor: "grey.400",
-              // '&:hover': {
-              //   background: "rgb(7, 177, 77, 0.42)",          
-              // }
-            }}
-          >
-            {/* <GoogleLoginButton onClick={() => signIn("google")} /> */}
-            <MyGoogleLoginButton onClick={() => signIn("google")} />
-          </Grid>
-
           <Button
             type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 2, mb: 2, backgroundColor: "primary.main" }}
-          // sx={{ mt: 2, mb: 2 }}
           >
             Sign In
           </Button>

@@ -7,7 +7,7 @@ import { handleErrors } from '../../../utils/HandleErrors'
 export default async function handler(req, res) {
   if (req.method === 'POST') { 
     const { email, password } = req.body;
-
+  
     try {
       const user = await User.findOne({ email });
       if (!user) return res.status(422).json({ error: "User does not exist" });
@@ -16,7 +16,7 @@ export default async function handler(req, res) {
         if (!password || password === "undefined") return res.status(422).json({ error: "Please enter password" });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(422).json({ error: "Password not correct" });
+        if (!isMatch) return res.status(422).json({ error: "Email or Password not correct" });
 
         // const token = jwt.sign({ userid: user._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3d' } )
         const token = jwt.sign({ userid: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TIME } )  // "seconds"

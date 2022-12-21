@@ -18,6 +18,9 @@ import {
   Container,
 } from "@mui/material";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import Image from 'next/image'
+import wendy from '../../../assets/pic/wendy.png'
+import { toast } from "react-toastify";
 
 import { MyGoogleLoginButton } from '../../../utils/GoogleIconButton'
 
@@ -38,10 +41,9 @@ const Register = ({ csrfToken, providers }) => {
     const cookies = parseCookies();
     // const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "" ;
     const user = cookies?.user ? JSON.parse(cookies.user) : "";
-    if (user) {
-      router.push("/")
-    }
-  }, [session?.user])
+
+    if (user) router.push("/");
+  }, [])
 
 
   const resetInputValues = () => {
@@ -52,30 +54,42 @@ const Register = ({ csrfToken, providers }) => {
     setConPassword('');
   };
 
+
+  const toastConfig = {
+    background: '#EE0022 !important',
+      // icon: "🤯"
+      icon: (
+        <Image
+          src={wendy}
+          alt="Login"
+          width={30}
+          height={30}
+        />
+      )
+  };
+
   
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     // console.log(email, password)
 
     if (!firstName || !lastName || !email || !password) {
-      alert('all fields must not be empty')
+      toast.error('all fields must not be empty', toastConfig)
       return
     };
 
     if (password.length < 6) {
-      alert("password must be at least 6 characters in length")
+      toast.error('password must be at least 6 characters in length', toastConfig)
       return
     };
 
     if (password !== conPassword) {
-      alert("passwords do not match!")
+      toast.error('passwords do not match!', toastConfig)
       return
     };
 
     try {
-      let config = {
-        headers: { "Content-Type": "application/json" },
-      };
+      let config = { headers: { "Content-Type": "application/json" } };
 
       let newUser = {
         // id: Math.random(),
@@ -87,11 +101,22 @@ const Register = ({ csrfToken, providers }) => {
 
       // const { data } = await axios.post('http://localhost:3500/users', newUser, config);
       const { data } = await axios.post('/api/user/register', newUser, config);
+      // console.log({ data })
 
-      console.log({ data })
+      if (data && !data.error) {
+        setEmail("");
+        setPassword("");
+        setConPassword("");
+        setFirstName("");
+        setLastName("");
+
+        toast.success(data.success);
+        router.push('/src/user/login')
+      }
     } catch (error) {
       // console.log(error)    
-      console.log(error.response.data)
+      console.log(error?.response?.data?.error)
+      toast.error(error?.response?.data?.error)
     }
 
     resetInputValues();
@@ -154,7 +179,13 @@ const Register = ({ csrfToken, providers }) => {
       >
 
         <Avatar sx={{ m: 1, bgcolor: "primary.main" }}>
-          <AppRegistrationIcon />
+          {/* <AppRegistrationIcon /> */}
+          <Image
+            src={wendy}
+            alt="Register"
+            width={50}
+            height={50}
+          />
         </Avatar>
 
         <Typography component="h1" variant="h5">
@@ -167,6 +198,22 @@ const Register = ({ csrfToken, providers }) => {
           onSubmit={onSubmitHandler}
           sx={{ mt: 3 }}
         >
+
+          <Grid
+            container
+            sx={{
+              // mt: 2,
+              mb: 3,
+              border: 1,
+              borderRadius: 1,
+              borderColor: "grey.400",
+            }}
+          >
+            <MyGoogleLoginButton onClick={() => signIn("google")} >
+              Sign up with Google
+            </MyGoogleLoginButton>
+            {/* <GoogleLogoutButton onClick={() => signIn("google")}/> */}
+          </Grid>
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -228,22 +275,6 @@ const Register = ({ csrfToken, providers }) => {
                 onChange={(e) => setConPassword(e.target.value)}
               />
             </Grid>
-          </Grid>
-
-          <Grid
-            container
-            sx={{
-              mt: 2,
-              mb: 2,
-              border: 1,
-              borderRadius: 1,
-              borderColor: "grey.400",
-            }}
-          >
-            <MyGoogleLoginButton onClick={() => signIn("google")} >
-              Sign up with Google
-            </MyGoogleLoginButton>
-            {/* <GoogleLogoutButton onClick={() => signIn("google")}/> */}
           </Grid>
 
           <Button
