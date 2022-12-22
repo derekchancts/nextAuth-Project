@@ -17,11 +17,11 @@ export default NextAuth({
 
   adapter: MongoDBAdapter(clientPromise),
   
-  database: {
-    type: "mongodb",
-    useNewUrlParser: true,
-    url: process.env.MONGODB_URL,
-  },
+  // database: {
+  //   type: "mongodb",
+  //   useNewUrlParser: true,
+  //   url: process.env.MONGODB_URL,
+  // },
 
   secret: process.env.NEXTAUTH_SECRET,
 
