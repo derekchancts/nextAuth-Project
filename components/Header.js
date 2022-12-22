@@ -69,7 +69,7 @@ export default function ButtonAppBar() {
             sx={{ mr: 2 }}
           >
             <Link href="/" passHref>
-              <HomeIcon sx={{ color: "white"}} />
+              <HomeIcon sx={{ color: "white" }} />
             </Link>
           </IconButton>
 
@@ -85,7 +85,7 @@ export default function ButtonAppBar() {
             ) : (
               <>
                 <Link href="/src/user/login" passHref style={{ textDecoration: 'none' }} >
-                  <Button sx={{ color: 'white'}} >Login</Button>
+                  <Button sx={{ color: 'white'}}>Login</Button>
                 </Link>
                 <Link href="/src/user/register" passHref style={{ textDecoration: 'none' }}>
                   <Button sx={{ color: 'white'}}>Register</Button>

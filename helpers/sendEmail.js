@@ -2,6 +2,7 @@ import nodemailer from "nodemailer"
 
 
 export const sendEmail = (options) => {
+
   const transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVER_SERVICE,   // if using just gmail
     // host: process.env.EMAIL_SERVER_HOST,   // if using sendgrid
@@ -16,6 +17,8 @@ export const sendEmail = (options) => {
   // let data = { info: "", error: ""};
 
   const mailOptions = {
+    req,
+    res,
     from: process.env.EMAIL_FROM,
     to: options.to,
     subject: options.subject,

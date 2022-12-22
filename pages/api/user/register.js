@@ -48,7 +48,7 @@ export default async function handler(req, res) {
       // console.log(link)
 
       const message = `<div>Click on the link below to verify your email, if the link is not working then please paste into the browser.</div></br>
-    <div>link:${link}</div>`
+    <div>${link}</div>`
 
       await sendEmail({
         to: newUser.email,

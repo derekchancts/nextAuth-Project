@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken"
 import absoluteUrl from "next-absolute-url"
 import { sendEmail } from "../../../helpers/sendEmail"
 import { sendGrid } from '../../../helpers/sendGrid'
+import { sendInBlue } from '../../../helpers/sendinblue'
 
 
 
@@ -19,7 +20,6 @@ export default async function handler(req, res) {
 
       // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {expiresIn: "30d",})
       const token = jwt.sign({ _id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TIME } )
-
       // console.log(token)
 
       user.resetToken = token
@@ -29,11 +29,23 @@ export default async function handler(req, res) {
       const link = `${origin}/src/user/reset/${token}`
 
       const message = `<div>Click on the link below to reset your password, if the link is not working then please paste into the browser.</div></br>
-    <div>link:${link}</div>`
+    <div>${link}</div>`
 
       // console.log("message", message)
 
-      await sendEmail({
+      // await sendEmail({
+      //   to: user.email,
+      //   subject: "Password Reset",
+      //   text: message,
+      // })
+
+      // await sendGrid({
+      //   to: user.email,
+      //   subject: "Password Reset",
+      //   text: message,
+      // })
+
+      await sendInBlue({
         to: user.email,
         subject: "Password Reset",
         text: message,

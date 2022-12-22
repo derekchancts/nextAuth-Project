@@ -22,6 +22,18 @@ import cookie from 'js-cookie';
 import { useDispatch, useSelector } from "react-redux";
 // import { selectUserState } from '../store/authSlice'
 
+import {
+  Avatar,
+  Button,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container
+} from "@mui/material";
 
 
 export default function Component() {
@@ -35,7 +47,7 @@ export default function Component() {
 
   useEffect(() => {
     const cookies = parseCookies();
-    const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "" ;
+    const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "";
     setCurrentLoggedInUser(user);
 
     if (!user) router.push("/src/user/login");
@@ -52,14 +64,34 @@ export default function Component() {
   //   setCurrentLoggedInUser(user);
   // }, [user])
 
-  
 
-  if(currentLoggedInUser) {
-    return (
-      <>
-        Signed in as {currentLoggedInUser.email} <br/>
-      </>
-    )
-  } 
+
+  // if(currentLoggedInUser) {
+  //   return (
+  //     <>
+  //       Signed in as {currentLoggedInUser.email} <br/>
+  //     </>
+  //   )
+  // } 
+
+
+  return (
+    // <>
+    //   <Typography component="h1" variant="h5">
+    //     Dashboard
+    //   </Typography>
+    //   {`Logged in as: ` + currentLoggedInUser?.email }
+    // </>
+    <div>
+      {currentLoggedInUser && (
+        <>
+          <Typography component="h1" variant="h5">
+            Dashboard
+          </Typography>
+          {`Logged in as: ` + currentLoggedInUser?.email}
+        </>
+      )}
+    </div>
+  )
 
 }
