@@ -82,7 +82,7 @@ export default function Component() {
     //   </Typography>
     //   {`Logged in as: ` + currentLoggedInUser?.email }
     // </>
-    <div>
+    <>
       {currentLoggedInUser && (
         <>
           <Typography component="h1" variant="h5">
@@ -91,7 +91,7 @@ export default function Component() {
           {`Logged in as: ` + currentLoggedInUser?.email}
         </>
       )}
-    </div>
+    </>
   )
 
 }
