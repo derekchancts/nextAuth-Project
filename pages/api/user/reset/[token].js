@@ -29,6 +29,8 @@ export default async function handler (req, res) {
             const user = await User.findById(decodedToken._id)
 
             if (user) {
+              if (user.resetToken === undefined) return res.status(400).json({ error: "please use a valid token" })
+
               const salt = await bcrypt.genSalt(12);
               const hashedpassword = await bcrypt.hash(password, salt);
       
