@@ -42,7 +42,7 @@ const Login = ({ csrfToken, providers }) => {
     if (user) {
       router.push("/")
     }
-  }, [])
+  }, [router])
 
 
   const resetInputValues = () => {

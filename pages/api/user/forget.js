@@ -33,23 +33,17 @@ export default async function handler(req, res) {
 
       // console.log("message", message)
 
-      // await sendEmail({
-      //   to: user.email,
-      //   subject: "Password Reset",
-      //   text: message,
-      // })
-
-      // await sendGrid({
-      //   to: user.email,
-      //   subject: "Password Reset",
-      //   text: message,
-      // })
-
-      await sendInBlue({
+      await sendEmail({
         to: user.email,
         subject: "Password Reset",
         text: message,
       })
+
+      // await sendInBlue({
+      //   to: user.email,
+      //   subject: "Password Reset",
+      //   text: message,
+      // })
 
       //! NEED TO WRITE SOME LOGIC HERE FOR ERROR HANDLING IF ERROR DURING SENDING EMAIL
 

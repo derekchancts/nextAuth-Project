@@ -4,6 +4,7 @@ import User from '../../../model/userModel'
 import jwt from "jsonwebtoken"
 import absoluteUrl from "next-absolute-url"
 import { sendEmail } from '../../../helpers/sendEmail'
+import { sendInBlue } from '../../../helpers/sendInBlue'
 
 
 export default async function handler(req, res) {
@@ -55,6 +56,12 @@ export default async function handler(req, res) {
         subject: "Email Verification",
         text: message,
       })
+
+      // await sendInBlue({
+      //   to: user.email,
+      //   subject: "Email Verification",
+      //   text: message,
+      // })
 
       //! NEED TO WRITE SOME LOGIC HERE FOR ERROR HANDLING IF ERROR DURING SENDING EMAIL
 

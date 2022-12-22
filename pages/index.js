@@ -51,7 +51,7 @@ export default function Component() {
     setCurrentLoggedInUser(user);
 
     if (!user) router.push("/src/user/login");
-  }, [session?.user])
+  }, [session?.user, router])
 
 
   //! if use redux

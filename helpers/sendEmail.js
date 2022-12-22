@@ -17,8 +17,6 @@ export const sendEmail = (options) => {
   // let data = { info: "", error: ""};
 
   const mailOptions = {
-    req,
-    res,
     from: process.env.EMAIL_FROM,
     to: options.to,
     subject: options.subject,

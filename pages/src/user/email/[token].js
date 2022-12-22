@@ -23,7 +23,21 @@ import { toast } from "react-toastify"
 export default function EmailConfirm() {
   const router = useRouter()
 
+
   useEffect(() => {
+
+    const sendToken = async (token) => {
+      try {
+        let config = { headers: { "Content-Type": "application/json" } };
+  
+        const { data } = await axios.put(`/api/user/email/${token}`, {}, config);
+        toast.success(data.success);
+        router.push('/src/user/login');
+      } catch (error) {
+        toast.error(error?.response?.data?.error)
+      }
+    }
+
     //! Whether the router fields are updated client-side and ready for use. Should only be used inside of useEffect methods 
     if (router.isReady) {
       // console.log("useEffect", router.query);
@@ -31,21 +45,11 @@ export default function EmailConfirm() {
       sendToken(token)
     }
   // }, [router.isReady, router.query]);
-  }, [router.isReady]);
+  }, [router.isReady, router.query, router]);
 
 
 
-  const sendToken = async (token) => {
-    try {
-      let config = { headers: { "Content-Type": "application/json" } };
 
-      const { data } = await axios.put(`/api/user/email/${token}`, {}, config);
-      toast.success(data.success);
-      router.push('/src/user/login');
-    } catch (error) {
-      toast.error(error?.response?.data?.error)
-    }
-  }
 
   return (
     <>
