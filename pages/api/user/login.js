@@ -1,7 +1,6 @@
 import User from '../../../model/userModel'
 import bcrypt from 'bcryptjs'
 const jwt = require('jsonwebtoken')
-import { handleErrors } from '../../../utils/HandleErrors'
 
 
 export default async function handler(req, res) {

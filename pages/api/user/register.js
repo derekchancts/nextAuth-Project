@@ -4,7 +4,7 @@ import User from '../../../model/userModel'
 import jwt from "jsonwebtoken"
 import absoluteUrl from "next-absolute-url"
 import { sendEmail } from '../../../helpers/sendEmail'
-import { sendInBlue } from '../../../helpers/sendInBlue'
+// import { sendInBlue } from '../../../helpers/sendInBlue'
 
 
 export default async function handler(req, res) {

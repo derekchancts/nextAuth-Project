@@ -2,8 +2,8 @@ import User from "../../../model/userModel"
 import jwt from "jsonwebtoken"
 import absoluteUrl from "next-absolute-url"
 import { sendEmail } from "../../../helpers/sendEmail"
-import { sendGrid } from '../../../helpers/sendGrid'
-import { sendInBlue } from '../../../helpers/sendinblue'
+// import { sendGrid } from '../../../helpers/sendGrid'
+// import { sendInBlue } from '../../../helpers/sendinblue'
 
 
 
