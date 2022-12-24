@@ -24,7 +24,11 @@ export default async function handle (req, res) {
               user.emailToken = undefined
               await user.save()
 
-              return res.status(200).json({ success: "success in validating user's email" })
+              const { name, email, _id, validEmail } = user;
+
+              const updatedUser = { name, email, _id, validEmail };
+
+              return res.status(200).json({ success: "success in validating user's email", user: updatedUser })
             }
           }
         })

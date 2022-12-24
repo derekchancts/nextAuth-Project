@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 import { useDispatch } from "react-redux";
-import { setUser } from '../store/authSlice'
+import { setUser, authFetch, logoutUser } from '../store/authSlice'
 
 
 
@@ -33,12 +33,20 @@ export default function ButtonAppBar() {
   // console.log({ cookies })
 
 
+
   useEffect(() => {
     const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "";
-    setcurrentUser(user);
+    // setcurrentUser(user);
 
-    dispatch(setUser(user))  //! if you decide to use redux
-  }, [cookies.user, session])
+    // dispatch(setUser(user))  //! if you decide to use redux
+
+    if (user && user !== 'undefined' && user !== null ) {
+      dispatch(authFetch(user))
+    }
+
+    setcurrentUser(user)
+  }, [cookies.user, session, dispatch])
+
 
 
   const logoutHandler = () => {
@@ -48,7 +56,7 @@ export default function ButtonAppBar() {
     cookie.remove('user');
 
     // LOGIC HERE TO UPDATE REDUX STATE
-    // dispatch(logoutUser);
+    dispatch(logoutUser());
 
     // toast.success('Logout success 👌');
     router.push('/src/user/login')

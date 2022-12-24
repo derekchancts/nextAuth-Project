@@ -17,21 +17,27 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useRouter } from "next/router"
 import axios from "axios"
 import { toast } from "react-toastify"
+import { setUser } from '../../../../store/authSlice'
+import { useDispatch } from "react-redux";
 
 
 
 export default function EmailConfirm() {
   const router = useRouter()
+  const dispatch = useDispatch(); 
 
 
   useEffect(() => {
-
     const sendToken = async (token) => {
       try {
         let config = { headers: { "Content-Type": "application/json" } };
   
         const { data } = await axios.put(`/api/user/email/${token}`, {}, config);
         toast.success(data.success);
+
+        // console.log({data})
+        dispatch(setUser(data.user))
+
         router.push('/src/user/login');
       } catch (error) {
         toast.error(error?.response?.data?.error)
