@@ -36,7 +36,7 @@ const initialState = {
   //currentUser: user,
   currentUser: null,
   loading: 'idle',
-  error: null
+  error: null,
 };
 
 

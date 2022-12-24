@@ -43,7 +43,7 @@ const Register = ({ csrfToken, providers }) => {
     const user = cookies?.user ? JSON.parse(cookies.user) : "";
 
     if (user) router.push("/");
-  }, [])
+  }, [router])
 
 
   const resetInputValues = () => {

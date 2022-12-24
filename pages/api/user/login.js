@@ -20,8 +20,8 @@ export default async function handler(req, res) {
         // const token = jwt.sign({ userid: user._id}, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '3d' } )
         const token = jwt.sign({ userid: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.JWT_ACCESS_TIME } )  // "seconds"
 
-        const { email, _id, name } = user;
-        return res.status(201).json({ success: 'Login success', user: { email, _id, name }, token });
+        const { email, _id, name, validEmail } = user;
+        return res.status(201).json({ success: 'Login success', user: { email, _id, name, validEmail }, token });
       };
     } catch (error) {
       return res.status(400).json({ error })

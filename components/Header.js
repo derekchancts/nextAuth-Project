@@ -14,8 +14,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSession, signIn, signOut } from "next-auth/react";
 
-import { useDispatch } from "react-redux";
-import { setUser, authFetch, logoutUser } from '../store/authSlice'
+import { useDispatch, useSelector } from "react-redux";
+import { setUser, authFetch, logoutUser, selectCurrentUser } from '../store/authSlice'
 
 
 
@@ -35,17 +35,20 @@ export default function ButtonAppBar() {
 
 
   useEffect(() => {
+    //! check and see if we have a cookie or a session
     const user = cookies?.user ? JSON.parse(cookies.user) : session?.user ? session.user : "";
     // setcurrentUser(user);
 
     // dispatch(setUser(user))  //! if you decide to use redux
 
+    //! if we have a user, then call "authFetch"
     if (user && user !== 'undefined' && user !== null ) {
       dispatch(authFetch(user))
     }
 
     setcurrentUser(user)
   }, [cookies.user, session, dispatch])
+
 
 
 
@@ -85,8 +88,12 @@ export default function ButtonAppBar() {
             {currentUser && <p> user: {currentUser.email} </p>}
           </Typography>
 
+          {/* <Link href="/src/user/author" passHref style={{ textDecoration: 'none' }} >
+            <Button sx={{ color: 'white'}}>Author</Button>
+          </Link> */}
+
           <Box sx={{ ml: 2 }}>
-            {currentUser || session ? (
+            {currentUser ? (
               <>
                 <Button color="inherit" onClick={() => logoutHandler()}>Logout</Button>
               </>

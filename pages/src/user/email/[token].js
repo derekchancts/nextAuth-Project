@@ -51,9 +51,7 @@ export default function EmailConfirm() {
       sendToken(token)
     }
   // }, [router.isReady, router.query]);
-  }, [router.isReady, router.query, router]);
-
-
+  }, [router.isReady, router.query, router, dispatch]);
 
 
 

@@ -18,11 +18,14 @@ import { useRouter } from "next/router";
 import { useState, useEffect } from 'react';
 import { parseCookies } from "nookies";
 import cookie from 'js-cookie';
+import Link from "next/link";
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentUser } from '../store/authSlice'
 import { toast } from "react-toastify";
 import axios from 'axios'
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import EmailIcon from '@mui/icons-material/Email';
 
 
 import {
@@ -31,7 +34,7 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
+  // Link,
   Grid,
   Box,
   Typography,
@@ -58,7 +61,7 @@ export default function Component({ session }) {
 
 
   //! if use redux
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   // const user = useSelector(state => state.auth.currentUser)
   const user = useSelector(selectCurrentUser)
 
@@ -101,32 +104,45 @@ export default function Component({ session }) {
         //   {`Logged in as: ` + currentLoggedInUser?.email}
         // </>
 
-        <>
-        <Typography component="h1" variant="h5">
-          {currentLoggedInUser.name}
-        </Typography>
-        <Typography component="h1" variant="h5">
-          {currentLoggedInUser.email}
-        </Typography>
-        <Typography component="h1" variant="h5">
-          {currentLoggedInUser.validEmail && " "}
-          {currentLoggedInUser.validEmail === "not" && (
-            <Button onClick={emailReset}>Click here to Verify Email Address</Button>
-          )}
+        <Container maxWidth="xs">
+          <Box
+            sx={{
+              marginTop: 8,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <h1>Profile </h1>
 
-          {/* {
-            (currentLoggedInUser.validEmail =
-              (currentLoggedInUser.validEmail === "not") ? (
-                <Button onClick={emailReset}>
-                  Click here to Verify Email Address
-                </Button>
-              ) : (
-                " "
-              ))
-          } */}
+            {/* <Button variant="outlined" color="secondary"> */}
+              <Link href="/src/user/author" variant="body2" style={{ textDecoration: 'none' }}>
+                To Author Page
+              </Link>
+            {/* </Button> */}
+            
 
-        </Typography>
-      </>
+            <Typography component="h1" variant="h5" sx={{ mt: 3 }}>
+              {currentLoggedInUser.name}
+            </Typography>
+            <Typography component="h1" variant="h5" sx={{ mt: 1 }}>
+              {currentLoggedInUser.email}
+            </Typography>
+            <Typography component="h1" variant="h5" sx={{ mt: 3 }}>
+              {currentLoggedInUser.validEmail && " "}
+              {currentLoggedInUser.validEmail === "not" && (
+                <Button 
+                  variant="outlined" 
+                  color="btn" 
+                  onClick={emailReset} 
+                  endIcon={<EmailIcon />
+                }>Click here to Verify Email Address</Button>
+              )}
+            </Typography>
+
+
+          </Box>
+        </Container>
       )}
     </>
   )
@@ -135,7 +151,7 @@ export default function Component({ session }) {
 
 
 
-export const getServerSideProps = async(context) => {
+export const getServerSideProps = async (context) => {
   const session = await getSession(context)
 
   return {
